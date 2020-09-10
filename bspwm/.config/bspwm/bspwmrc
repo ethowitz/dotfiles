@@ -1,0 +1,81 @@
+#! /bin/sh
+
+# fix cross cursor
+xsetroot -cursor_name left_ptr
+
+# set keymap
+xmodmap ~/.Xmodmap
+
+bspc monitor -d dash firefox programming notes spotify evolution chat misc
+
+# global settings
+bspc config border_width          6
+bspc config focused_border_color  \#D1CED4
+bspc config -m $BSPWM_EXTERNALMONITOR window_gap 80
+bspc config -m $BSPWM_INTERNALMONITOR window_gap 40
+
+bspc config split_ratio           0.50
+bspc config borderless_monocle    false
+bspc config gapless_monocle       true
+bspc config top_padding           40
+
+bspc config honor_size_hints	  true
+bspc config ignore_ewmh_focus     false
+
+bspc rule -a polybar manage=off
+bspc rule -a ranger state=floating
+bspc rule -a scratchpad rectangle=1200x720+20+60 sticky=on state=floating \
+    hidden=on
+bspc rule -a Alacritty rectangle=1160x1810+0+0 state=pseudo_tiled
+
+# firefox
+bspc rule -a firefox desktop=firefox
+bspc config -d firefox window_gap 0
+
+# notes
+bspc rule -a zim desktop=notes
+
+# spotify
+bspc rule -a spotify desktop=spotify
+bspc config -d spotify window_gap 0
+
+# evolution
+bspc rule -a evolution desktop=evolution
+
+# chat
+bspc rule -a Signal desktop=chat state=tiled
+bspc rule -a Slack desktop=chat state=tiled
+bspc rule -a Discord desktop=chat state=tiled
+bspc rule -a weechat desktop=chat
+
+# monitor-specific setup
+if [ $(xrandr | grep -c " connected") -eq 2 ]
+then
+        $HOME/.config/bspwm/external_setup
+else
+        $HOME/.config/bspwm/internal_setup
+fi
+
+# bootstrap
+
+# this function ensures that the execution of this file is idempotent
+function not_running {
+    ! [ $(pgrep -f $1) ]
+} 
+
+# start xfce4
+alacritty --class scratchpad,scratchpad &
+pkill sxhkd
+sxhkd > /dev/null 2>&1 &
+not_running xfsettingsd && xfsettingsd
+not_running xfce4-power-manager && xfce4-power-manager
+not_running xfce4-screensaver && xfce4-screensaver &
+not_running xfdesktop && xfdesktop -D &
+
+# if the xsession target hasn't been started, start it, so our user services
+# start
+if [ ! $(systemctl -q is-active xsession.target) ]
+then
+    systemctl --no-block --user start xsession.target
+fi
+

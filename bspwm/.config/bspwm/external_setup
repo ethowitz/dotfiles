@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# programming
+bspc config -m $BSPWM_EXTERNALMONITOR -d programming left_padding 635
+bspc config -m $BSPWM_EXTERNALMONITOR -d programming right_padding 635
+bspc config -m $BSPWM_EXTERNALMONITOR -d programming bottom_padding 0
+bspc config -m $BSPWM_EXTERNALMONITOR -d programming top_padding 0
+bspc config -m $BSPWM_EXTERNALMONITOR -d programming window_gap  80
+
+# notes
+bspc config -m $BSPWM_EXTERNALMONITOR -d notes right_padding 1000
+bspc config -m $BSPWM_EXTERNALMONITOR -d notes left_padding 1000
+
+# spotify
+bspc config -m $BSPWM_EXTERNALMONITOR -d spotify window_gap 0
+
+# evolution
+bspc config -m $BSPWM_EXTERNALMONITOR -d evolution left_padding 200
+bspc config -m $BSPWM_EXTERNALMONITOR -d evolution right_padding 200
+bspc config -m $BSPWM_EXTERNALMONITOR -d evolution window_gap  200
+

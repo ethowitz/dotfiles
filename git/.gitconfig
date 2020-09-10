@@ -1,0 +1,16 @@
+[user]
+	email = ethowitz@users.noreply.github.com
+	name = Ethan Donowitz
+	signingkey = 6D69A3E54D2998A44E856DDCF1396C60638E7C2A
+[commit]
+	gpgsign = true
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true
+[pull]
+	ff = only

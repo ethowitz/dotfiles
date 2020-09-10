@@ -1,0 +1,180 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+#background = ${xrdb:color0:#222}
+background = "#282428"
+background-alt = #444
+foreground = "#d1ced4"
+#foreground-alt = ${xrdb:color7}
+#primary = ${xrdb:color1}
+#secondary = ${xrdb:color2}
+alert = "#de5745"
+
+[bar/wm]
+override-redirect = true
+margin-top = 0
+margin-bottom = 0
+screenchange-reload = false
+height = 40
+width = 100%
+radius = 0
+fixed-center = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 0
+line-color = #f00
+
+padding-left = 2
+padding-right = 2
+
+font-0 = "Ubuntu Condensed:size=16;4"
+font-1 = "Font Awesome 5 Free Regular:size=16;4"
+font-2 = "Font Awesome 5 Free Solid:size=16;4"
+font-3 = "Font Awesome 5 Brands Regular:size=16;4"
+
+border-size = 0
+
+module-margin-left = 2
+module-margin-right = 2
+
+modules-left = bspwm
+modules-center = spotify
+modules-right = pulseaudio wlan eth protonvpn battery date
+
+tray-position = none
+
+wm-restack = bspwm
+monitor = ${env:MONITOR:}
+
+;override-redirect = true
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/protonvpn]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-protonvpn.sh
+interval = 5
+
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix = " "
+format = <label>
+exec = python ~/.config/polybar/scripts/spotify_status.py -f '{artist}: {song}'
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/bspwm]
+type = internal/bspwm
+
+format = <label-state>
+
+label-focused = %name%
+label-focused-foreground = ${colors.background}
+label-focused-background = ${colors.foreground}
+label-focused-padding = 1
+
+label-occupied = %name%
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-foreground = ${colors.alert}
+
+label-empty = %name%
+label-empty-padding = 1
+
+; Separator in between workspaces
+; label-separator = |
+
+[module/wlan]
+type = internal/network
+interface = wlan0
+interval = 3.0
+
+format-connected = <label-connected>
+label-connected =  
+
+format-disconnected = 
+
+[module/eth]
+type = internal/network
+interface = enp0s31f6
+interval = 3.0
+
+label-connected = 
+format-disconnected =
+
+[module/date]
+type = internal/date
+interval = 5
+date = %a %b %e
+time = %l:%M%P
+label = %date% %time%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <label-volume>
+label-volume =  %percentage%%
+label-muted = 
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 80
+
+format-charging = <label-charging>
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 500
+label-charging =  %percentage%%
+
+format-discharging = <ramp-capacity> <label-discharging>
+label-discharging = %percentage%%
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+format-full = <label-full>
+label-full =  full
+
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+

@@ -1,0 +1,18 @@
+#! /bin/sh
+
+# programming 
+bspc config -m $BSPWM_INTERNALMONITOR -d programming left_padding 80
+bspc config -m $BSPWM_INTERNALMONITOR -d programming right_padding 80
+bspc config -m $BSPWM_INTERNALMONITOR -d programming window_gap  20
+
+# notes
+bspc config -m $BSPWM_INTERNALMONITOR -d notes right_padding 500
+bspc config -m $BSPWM_INTERNALMONITOR -d notes left_padding 500
+
+# evolution
+bspc config -m $BSPWM_INTERNALMONITOR -d evolution window_gap 0
+bspc config -m $BSPWM_INTERNALMONITOR -d evolution left_padding 0
+bspc config -m $BSPWM_INTERNALMONITOR -d evolution right_padding 0
+
+# chat
+bspc config -m $BSPWM_INTERNALMONITOR -d chat window_gap 0

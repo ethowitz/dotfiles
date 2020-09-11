@@ -1,5 +1,5 @@
 # dotfiles
-![scrot](https://raw.githubusercontent.com/ethowitz/dotfiles/blob/main/scrot.png)
+![scrot](https://raw.githubusercontent.com/ethowitz/dotfiles/main/scrot.png)
 
 I run Arch Linux on a Thinkpad T490 with the following:
 * Dotfile manager: [GNU Stow](https://www.gnu.org/software/stow/)

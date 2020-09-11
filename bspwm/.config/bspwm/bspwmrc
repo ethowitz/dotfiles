@@ -64,9 +64,9 @@ function not_running {
 } 
 
 # start xfce4
-alacritty --class scratchpad,scratchpad &
-pkill sxhkd
-sxhkd > /dev/null 2>&1 &
+pkill -f scratchpad ; alacritty --class scratchpad,scratchpad &
+pkill sxhkd ; sxhkd > /dev/null 2>&1 &
+pkill polybar ; polybar wm &
 not_running xfsettingsd && xfsettingsd
 not_running xfce4-power-manager && xfce4-power-manager
 not_running xfce4-screensaver && xfce4-screensaver &

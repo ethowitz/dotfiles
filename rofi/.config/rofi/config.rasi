@@ -1,9 +1,9 @@
 configuration {
 	modi: "window,run,drun";
-	width: 20;
+	width: 26;
 /*	lines: 15;*/
-	columns: 2;
-	font: "UbuntuCondensed 26";
+	columns: 1;
+	font: "UbuntuCondensed 28";
 /*	bw: 1;*/
 /*	location: 0;*/
 	padding: 20;

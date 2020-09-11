@@ -18,5 +18,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets)
+eval $(ssh-agent -s)
+
 exec bspwm
 

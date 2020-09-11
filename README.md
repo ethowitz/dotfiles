@@ -2,7 +2,7 @@
 ![scrot](https://raw.githubusercontent.com/ethowitz/dotfiles/main/scrot.png)
 
 I run Arch Linux on a Thinkpad T490 with the following:
-* Dotfile manager: [GNU Stow](https://www.gnu.org/software/stow/)
+* Dotfile Manager: [GNU Stow](https://www.gnu.org/software/stow/)
 * Display Manager: none
 * Window Manager: [bspwm](https://github.com/baskerville/bspwm/)
 * Hotkey Daemon: [sxhkd](https://github.com/baskerville/sxhkd)

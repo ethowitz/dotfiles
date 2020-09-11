@@ -1,8 +1,13 @@
 function git_branch {
-    branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null) && echo " • $branch"
+    branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null) && \
+        echo " • ${branch}"
 }
 
-export PS1="\W$(git_branch) \\$ "
+PS1="\W\$(git_branch) \\$ "
+
+# fzf
+source /usr/share/fzf/key-bindings.bash
+source /usr/share/fzf/completion.bash
 
 # history
 HISTFILE=~/.bash_history

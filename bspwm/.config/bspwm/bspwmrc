@@ -6,7 +6,7 @@ xsetroot -cursor_name left_ptr
 # set keymap
 xmodmap ~/.Xmodmap
 
-bspc monitor -d dash firefox programming notes spotify evolution chat misc
+bspc monitor -d firefox programming notes spotify evolution chat misc
 
 # global settings
 bspc config border_width          6
@@ -26,7 +26,6 @@ bspc rule -a polybar manage=off
 bspc rule -a ranger state=floating
 bspc rule -a scratchpad rectangle=1200x720+20+60 sticky=on state=floating \
     hidden=on
-bspc rule -a Alacritty rectangle=1160x1810+0+0 state=pseudo_tiled
 
 # firefox
 bspc rule -a firefox desktop=firefox
@@ -67,10 +66,10 @@ function not_running {
 pkill -f scratchpad ; alacritty --class scratchpad,scratchpad &
 pkill sxhkd ; sxhkd > /dev/null 2>&1 &
 pkill polybar ; polybar wm &
+pkill xfdesktop ; xfdesktop -D &
 not_running xfsettingsd && xfsettingsd
 not_running xfce4-power-manager && xfce4-power-manager
 not_running xfce4-screensaver && xfce4-screensaver &
-not_running xfdesktop && xfdesktop -D &
 
 # if the xsession target hasn't been started, start it, so our user services
 # start

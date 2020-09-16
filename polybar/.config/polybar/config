@@ -56,7 +56,6 @@ module-margin-left = 2
 module-margin-right = 2
 
 modules-left = bspwm
-modules-center = spotify
 modules-right = pulseaudio wlan eth protonvpn battery date
 
 tray-position = none
@@ -73,13 +72,6 @@ cursor-scroll = ns-resize
 type = custom/script
 exec = ~/.config/polybar/scripts/polybar-protonvpn.sh
 interval = 5
-
-[module/spotify]
-type = custom/script
-interval = 1
-format-prefix = " "
-format = <label>
-exec = python ~/.config/polybar/scripts/spotify_status.py -f '{artist}: {song}'
 
 [module/xwindow]
 type = internal/xwindow

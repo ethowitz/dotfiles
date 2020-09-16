@@ -13,6 +13,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'derekwyatt/vim-scala'
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
+Plug 'neoclide/coc.nvim'
+Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
@@ -88,6 +91,10 @@ au VimLeave * set guicursor=a:ver100-blinkon0
 " don't wrap lines
 set nowrap
   autocmd FileType markdown setlocal wrap
+
+" linting & code completion
+
+let g:ale_linters = {'rust': ['analyzer']}
 
 " keystrokes
 let mapleader = "\<Space>"

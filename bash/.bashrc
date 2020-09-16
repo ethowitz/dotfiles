@@ -3,11 +3,12 @@ function git_branch {
         echo " • ${branch}"
 }
 
-PS1="\W\$(git_branch) \\$ "
+PS1="\[\e[1;37m\]\W\$(git_branch) \\$\[\e[0m\] "
 
 # fzf
 source /usr/share/fzf/key-bindings.bash
 source /usr/share/fzf/completion.bash
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 # history
 HISTFILE=~/.bash_history
@@ -17,6 +18,7 @@ SAVEHIST=10000
 # aliases
 alias vim='nvim'
 alias ls='exa -F'
+alias cat='bat'
 alias rm="echo Use 'del', or the full path i.e. '/bin/rm'"
 alias clip='xclip -selection clipboard -i'
 alias scrot='scrot ~/pictures/screenshots/%Y-%m-%d_%I:%M:%S%P.png'

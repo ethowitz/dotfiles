@@ -1,0 +1,55 @@
+-- return {
+--   {
+--     "ThePrimeagen/harpoon",
+--     branch = "harpoon2",
+--     dependencies = { "nvim-lua/plenary.nvim" },
+--     keys = {
+--       {
+--         "mm",
+--         function()
+--           local harpoon = require("harpoon")
+--           harpoon.ui:toggle_quick_menu(harpoon:list())
+--         end,
+--       },
+--       {
+--         "ma",
+--         function()
+--           local harpoon = require("harpoon")
+--           harpoon:list():add()
+--         end,
+--       },
+--       {
+--         "mc",
+--         function()
+--           local harpoon = require("harpoon")
+--           harpoon:list():clear()
+--         end,
+--       },
+--       {
+--         "<C-p>",
+--         function()
+--           local harpoon = require("harpoon")
+--           harpoon:list():prev()
+--         end,
+--       },
+--       {
+--         "<C-n>",
+--         function()
+--           local harpoon = require("harpoon")
+--           harpoon:list():next()
+--         end,
+--       },
+--     },
+--     opts = {},
+--   },
+--   {
+--     "letieu/harpoon-lualine",
+--     dependencies = {
+--       {
+--         "ThePrimeagen/harpoon",
+--         branch = "harpoon2",
+--       },
+--     },
+--   },
+-- }
+return {}

@@ -3,12 +3,8 @@ setopt ignore_eof # ignore Ctrl-d
 setopt histignoredups # ignore duplicates in command history
 
 export ZSH="$HOME/.oh-my-zsh"
-
-# RPS1='%(?..%F{red}%? ↵%f)'
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
-ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
 PROMPT=' %b%3~ $(git_prompt_info)%B$%f%b '
-
+ZSH_THEME="afowler"
 plugins=(
   git
 )
@@ -35,7 +31,7 @@ alias co='git checkout $(git branch --sort=-committerdate | fzf)'
 export EDITOR='nvim'
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 export SUDO_EDITOR="rvim"
-export TERM=xterm-kitty
+export TERM=xterm
 
 # platform specific stuff
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

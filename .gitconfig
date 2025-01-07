@@ -45,3 +45,6 @@
     difftool = true
 [include]
   path = ~/.gitconfig.local
+[user]
+	email = ethan.donowitz@gmail.com
+	name = Ethan Donowitz

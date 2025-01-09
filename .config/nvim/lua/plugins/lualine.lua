@@ -1,20 +1,4 @@
-local function mysplit(inputstr, sep)
-  if sep == nil then
-    sep = "%s"
-  end
-  local t = {}
-  for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
-    table.insert(t, str)
-  end
-  return t
-end
-
-local function get_harpoon_indicator(harpoon_entry)
-  local parts = mysplit(harpoon_entry.value, "/")
-  return parts[#parts]
-end
-
-local config = {
+return {
   "nvim-lualine/lualine.nvim",
   opts = {
     options = {
@@ -44,23 +28,6 @@ local config = {
         },
       },
       lualine_x = {
-        -- {
-        --   "harpoon2",
-        --   icon = " ",
-        --   color_active = { fg = "#FFFFFF" },
-        --   indicators = {
-        --     get_harpoon_indicator,
-        --     get_harpoon_indicator,
-        --     get_harpoon_indicator,
-        --     get_harpoon_indicator,
-        --   },
-        --   active_indicators = {
-        --     get_harpoon_indicator,
-        --     get_harpoon_indicator,
-        --     get_harpoon_indicator,
-        --     get_harpoon_indicator,
-        --   },
-        -- },
         {
           "diagnostics",
           sources = { "nvim_workspace_diagnostic" },
@@ -88,5 +55,3 @@ local config = {
     },
   },
 }
-
-return config

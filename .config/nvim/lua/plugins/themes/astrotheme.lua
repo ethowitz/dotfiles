@@ -1,4 +1,0 @@
-return {
-  "AstroNvim/astrotheme",
-  opts = {},
-}

@@ -7,7 +7,7 @@ return {
 	font = wezterm.font_with_fallback({
 		{
 			family = "Iosevka SS12",
-			weight = 500,
+			weight = 600,
 			harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 		},
 	}),
@@ -19,7 +19,7 @@ return {
 	cursor_blink_rate = 500,
 
 	-- Graphics
-	max_fps = 120,
+	max_fps = 240,
 	enable_wayland = false,
 
 	-- Window

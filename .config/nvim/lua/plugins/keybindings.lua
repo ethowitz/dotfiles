@@ -53,12 +53,12 @@ return {
     -- { "<C-n>", ":bnext<CR>", desc = "next buffer" },
     { "<Esc>",      ":noh<CR>",                                               desc = "clear highlights" },
     {
-      "[q",
+      "<S-Tab>",
       ":cp<CR>",
       desc = "go to previous quickfix item",
     },
     {
-      "]q",
+      "<Tab>",
       ":cn<CR>",
       desc = "go to next quickfix item",
     },

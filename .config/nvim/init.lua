@@ -37,8 +37,18 @@ vim.api.nvim_set_option("updatetime", 300)
 vim.opt.ignorecase = true -- Ignore case in searches
 vim.opt.smartcase = true  -- Override ignorecase if search pattern contains a capital letter
 
+-- grep
+vim.opt.grepprg = "rg --vimgrep"
+vim.opt.grepformat = "%f:%l:%c:%m"
+vim.cmd("command! -nargs=+ Rg execute 'silent grep! <args>' | copen")
+
+-- Quickfix
+vim.cmd("packadd cfilter")
+
 -- Layout and UI
 vim.cmd.colorscheme("tokyonight")
+-- vim.cmd.colorscheme('solarized')
+-- vim.o.background = 'light'
 vim.g.vim_json_conceal = 0 -- Always show quotes in JSON files
 vim.opt.cursorline = true  -- Highlight the text line of the cursor
 vim.opt.number = true      -- Make line numbers default

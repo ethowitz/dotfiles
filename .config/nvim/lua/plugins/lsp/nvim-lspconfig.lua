@@ -1,3 +1,31 @@
+local function setup_codelens_refresh(client, bufnr)
+  local status_ok, codelens_supported = pcall(function()
+    return client.supports_method "textDocument/codeLens"
+  end)
+  if not status_ok or not codelens_supported then
+    return
+  end
+  local group = "lsp_code_lens_refresh"
+  local cl_events = { "BufEnter", "InsertLeave" }
+  local ok, cl_autocmds = pcall(vim.api.nvim_get_autocmds, {
+    group = group,
+    buffer = bufnr,
+    event = cl_events,
+  })
+
+  if ok and #cl_autocmds > 0 then
+    return
+  end
+  vim.api.nvim_create_augroup(group, { clear = false })
+  vim.api.nvim_create_autocmd(cl_events, {
+    group = group,
+    buffer = bufnr,
+    callback = function()
+      vim.lsp.codelens.refresh { bufnr = bufnr }
+    end,
+  })
+end
+
 return {
   -- LSP configuration
   "neovim/nvim-lspconfig",
@@ -10,9 +38,16 @@ return {
       end,
       desc = "dump LSP diagnostics to quickfix list",
     },
-    { "<leader>lr", ":LspRestart<CR>", desc = "restart LSP" },
-    { "<leader>ls", ":LspStop<CR>", desc = "stop LSP" },
-    { "<leader>lg", ":LspStart<CR>", desc = "start LSP" },
+    { "<leader>lR", ":LspRestart<CR>", desc = "restart LSP" },
+    { "<leader>ls", ":LspStop<CR>",    desc = "stop LSP" },
+    { "<leader>lg", ":LspStart<CR>",   desc = "start LSP" },
+    {
+      "<leader>lr",
+      function()
+        vim.lsp.buf.rename()
+      end,
+      desc = "rename symbol under cursor"
+    },
   },
   config = function()
     local sign = function(opts)
@@ -28,7 +63,12 @@ return {
     sign({ name = "DiagnosticSignHint", text = "󰌵 " })
     sign({ name = "DiagnosticSignInfo", text = "󰋼 " })
 
-    vim.diagnostic.config({ severity_sort = true })
+    vim.diagnostic.config({
+      on_init_callback = function(_)
+        setup_codelens_refresh(_)
+      end,
+      severity_sort = true,
+    })
 
     -- Use LspAttach autocommand to only map the following keys
     -- after the language server attaches to the current buffer
@@ -161,6 +201,8 @@ return {
       if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
       end
+
+      setup_codelens_refresh(client, bufnr)
     end
 
     lspconfig.lua_ls.setup({

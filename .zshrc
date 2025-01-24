@@ -13,8 +13,8 @@ source $ZSH/oh-my-zsh.sh
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS='--height 40% --layout reverse --border'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source <(fzf --zsh)
+source ~/.fzf/completion.zsh
+source ~/.fzf/key-bindings.zsh
 
 # history
 HISTFILE=~/.zsh_history
@@ -23,7 +23,6 @@ SAVEHIST=10000
 
 # aliases
 alias vim='nvim'
-alias ls='eza'
 alias mv='mv -i'
 alias co='git checkout $(git branch --sort=-committerdate | fzf)'
 

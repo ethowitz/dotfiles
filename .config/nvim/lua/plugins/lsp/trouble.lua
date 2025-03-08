@@ -23,111 +23,42 @@ return {
         follow = true,
         format = "{severity_icon} {filename} {message:md} {item.source} {code} {pos}",
         groups = {},
-        filter = {
-          { severity = { vim.diagnostic.severity.WARN, vim.diagnostic.severity.ERROR } },
-        },
-      },
-      errors = {
-        mode = "diagnostics",
-        filter = {
-          { severity = vim.diagnostic.severity.ERROR },
-        },
-      },
-      warnings = {
-        mode = "diagnostics",
-        filter = {
-          { severity = vim.diagnostic.severity.WARN },
-        },
+        filter = function(items)
+          local severity = vim.diagnostic.severity.WARN
+          for _, item in ipairs(items) do
+            severity = math.min(severity, item.severity)
+          end
+          return vim.tbl_filter(function(item)
+            return item.severity == severity
+          end, items)
+        end,
       },
     },
   },
-  lazy = false,
   keys = {
     {
       "<leader>x",
       function()
         local trouble = require("trouble")
-
-        trouble.close({ mode = "warnings" })
-        trouble.close({ mode = "errors" })
+        trouble.toggle({ mode = "diagnostics" })
       end,
       silent = true,
     },
     {
-      "<leader>e",
+      "<C-,>",
       function()
         local trouble = require("trouble")
-
-        if trouble.is_open({ mode = "warnings" }) then
-          trouble.close({ mode = "warnings" })
-        end
-
-        trouble.toggle({ mode = "errors" })
+        trouble.prev({ mode = "diagnostics" })
+        trouble.jump({ mode = "diagnostics" })
       end,
       silent = true,
     },
     {
-      "<leader>w",
+      "<C-.>",
       function()
         local trouble = require("trouble")
-
-        if trouble.is_open({ mode = "errors" }) then
-          trouble.close({ mode = "errors" })
-        end
-
-        trouble.toggle({ mode = "warnings" })
-      end,
-      silent = true,
-    },
-    {
-      "[e",
-      function()
-        local trouble = require("trouble")
-        if trouble.is_open({ mode = "warnings" }) then
-          trouble.close({ mode = "warnings" })
-        end
-
-        trouble.prev({ mode = "errors" })
-        trouble.jump({ mode = "errors" })
-      end,
-      silent = true,
-    },
-    {
-      "]e",
-      function()
-        local trouble = require("trouble")
-        if trouble.is_open({ mode = "warnings" }) then
-          trouble.close({ mode = "warnings" })
-        end
-
-        trouble.next({ mode = "errors" })
-        trouble.jump({ mode = "errors" })
-      end,
-      silent = true,
-    },
-    {
-      "[w",
-      function()
-        local trouble = require("trouble")
-        if trouble.is_open({ mode = "errors" }) then
-          trouble.close({ mode = "errors" })
-        end
-
-        trouble.prev({ mode = "warnings" })
-        trouble.jump({ mode = "warnings" })
-      end,
-      silent = true,
-    },
-    {
-      "]w",
-      function()
-        local trouble = require("trouble")
-        if trouble.is_open({ mode = "errors" }) then
-          trouble.close({ mode = "errors" })
-        end
-
-        trouble.next({ mode = "warnings" })
-        trouble.jump({ mode = "warnings" })
+        trouble.next({ mode = "diagnostics" })
+        trouble.jump({ mode = "diagnostics" })
       end,
       silent = true,
     },

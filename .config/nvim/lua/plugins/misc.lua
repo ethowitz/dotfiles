@@ -4,12 +4,15 @@ return {
   ----------------------------- MOVEMENT AND SYNTAX --------------------------
   "tpope/vim-sleuth", -- automatically set 'shiftwidth' and 'expandtab'
   {
-    "kwkarlwang/bufjump.nvim",
-    config = function()
-      require("bufjump").setup({
-        forward = "<C-n>",
-        backward = "<C-p>",
-      })
-    end,
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {
+      disable_filetype = {
+        "TelescopePrompt",
+        "spectre_panel",
+        "snacks_input",
+        "snacks_picker_input",
+      },
+    },
   },
 }

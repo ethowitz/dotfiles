@@ -17,6 +17,16 @@ return {
       },
       day_brightness = 0.1,
       on_highlights = function(hl, c)
+        -- hl["@lsp.typemod.variable.mutable.rust"] = {
+        --   fg = c.fg,
+        --   bg = c.bg,
+        --   underline = true,
+        -- }
+        hl["@lsp.typemod.function.trait.rust"] = {
+          fg = c.fg,
+          bg = c.bg,
+          bold = true,
+        }
         hl["@lsp.typemod.method.trait.rust"] = {
           fg = c.fg,
           bg = c.bg,

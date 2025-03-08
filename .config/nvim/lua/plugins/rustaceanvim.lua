@@ -1,6 +1,6 @@
 local function setup_codelens_refresh(client, bufnr)
   local status_ok, codelens_supported = pcall(function()
-    return client.supports_method "textDocument/codeLens"
+    return client.supports_method("textDocument/codeLens")
   end)
   if not status_ok or not codelens_supported then
     return
@@ -21,7 +21,7 @@ local function setup_codelens_refresh(client, bufnr)
     group = group,
     buffer = bufnr,
     callback = function()
-      vim.lsp.codelens.refresh { bufnr = bufnr }
+      vim.lsp.codelens.refresh({ bufnr = bufnr })
     end,
   })
 end
@@ -76,29 +76,13 @@ return {
         end,
         default_settings = {
           ["rust-analyzer"] = {
+            -- cmd = { "/Users/ethan/.local/bin/rust-analyzer" },
             check = {
               command = "clippy",
               extraArgs = { "--profile", "rust-analyzer" },
-              -- workspace = false,
-            },
-            cachePriming = {
-              enable = false,
-            },
-            procMacro = {
-              enable = true,
-              ignored = {
-                ["async-trait"] = { "async_trait" },
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
-              },
-            },
-            workspace = {
-              symbol = {
-                search = {
-                  kind = "only_types",
-                  scope = "workspace",
-                },
-              },
+              -- extraEnv = {
+              --   ["CARGO"] = "/Users/ethan/.cargo/bin/cargo-filtered",
+              -- },
             },
           },
         },

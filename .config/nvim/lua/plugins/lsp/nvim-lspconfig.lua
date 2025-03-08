@@ -1,6 +1,6 @@
 local function setup_codelens_refresh(client, bufnr)
   local status_ok, codelens_supported = pcall(function()
-    return client.supports_method "textDocument/codeLens"
+    return client.supports_method("textDocument/codeLens")
   end)
   if not status_ok or not codelens_supported then
     return
@@ -21,7 +21,7 @@ local function setup_codelens_refresh(client, bufnr)
     group = group,
     buffer = bufnr,
     callback = function()
-      vim.lsp.codelens.refresh { bufnr = bufnr }
+      vim.lsp.codelens.refresh({ bufnr = bufnr })
     end,
   })
 end
@@ -39,14 +39,14 @@ return {
       desc = "dump LSP diagnostics to quickfix list",
     },
     { "<leader>lR", ":LspRestart<CR>", desc = "restart LSP" },
-    { "<leader>ls", ":LspStop<CR>",    desc = "stop LSP" },
-    { "<leader>lg", ":LspStart<CR>",   desc = "start LSP" },
+    { "<leader>ls", ":LspStop<CR>", desc = "stop LSP" },
+    { "<leader>lg", ":LspStart<CR>", desc = "start LSP" },
     {
       "<leader>lr",
       function()
         vim.lsp.buf.rename()
       end,
-      desc = "rename symbol under cursor"
+      desc = "rename symbol under cursor",
     },
   },
   config = function()
@@ -91,7 +91,6 @@ return {
         -- Mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local lsp_opts = { noremap = true, silent = true, buffer = ev.buf }
-        local telescope = require("telescope.builtin")
 
         require("which-key").add({
           {
@@ -104,44 +103,44 @@ return {
           {
             "gd",
             function()
-              telescope.lsp_definitions()
+              Snacks.picker.lsp_definitions()
             end,
             desc = "go to definition(s) of symbol under cursor",
           },
           {
             "gt",
             function()
-              telescope.lsp_type_definitions()
+              Snacks.picker.lsp_type_definitions()
             end,
             desc = "go to definition(s) of the type of the symbol under cursor",
           },
           {
             "gr",
             function()
-              telescope.lsp_references()
+              Snacks.picker.lsp_references()
             end,
             desc = "search references to symbol under cursor",
           },
           {
             "gi",
             function()
-              telescope.lsp_implementations()
+              Snacks.picker.lsp_implementations()
             end,
             desc = "search implementations of the symbol under cursor",
           },
           {
-            "gI",
+            "<leader>st",
             function()
-              telescope.lsp_incoming_calls()
+              Snacks.picker.lsp_workspace_symbols()
             end,
-            desc = "list incoming calls",
+            desc = "LSP Workspace Symbols",
           },
           {
-            "gO",
+            "<leader>ss",
             function()
-              telescope.lsp_outgoing_calls()
+              Snacks.picker.lsp_symbols()
             end,
-            desc = "list outgoing calls",
+            desc = "LSP Symbols",
           },
           {
             "K",

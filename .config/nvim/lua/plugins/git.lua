@@ -47,7 +47,7 @@ return {
     dependencies = "nvim-lua/plenary.nvim",
     keys = {
       {
-        "<leader>gl",
+        "<leader>gy",
         function()
           require("gitlinker").get_buf_range_url("n")
         end,

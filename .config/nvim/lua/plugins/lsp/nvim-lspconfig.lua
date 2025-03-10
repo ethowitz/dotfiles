@@ -282,28 +282,6 @@ return {
     lspconfig.vtsls.setup({
       on_attach = on_attach,
     })
-    -- lspconfig.rust_analyzer.setup({
-    --   on_attach = on_attach,
-    --   settings = {
-    --     ["rust-analyzer"] = {
-    --       check = {
-    --         command = "check",
-    --         extraArgs = { "--profile", "rust-analyzer" },
-    --         workspace = false,
-    --       },
-    --       cachePriming = false,
-    --       -- linkedProjects = { '/home/discord/dev/Cargo.toml' },
-    --       workspace = {
-    --         symbol = {
-    --           search = {
-    --             kind = "only_types",
-    --             scope = "workspace",
-    --           },
-    --         },
-    --       },
-    --     },
-    --   },
-    -- })
   end,
   dependencies = {
     "mason.nvim",

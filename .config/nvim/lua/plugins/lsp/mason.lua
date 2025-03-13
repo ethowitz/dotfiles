@@ -5,11 +5,7 @@ return {
   build = ":MasonUpdate",
   opts = {
     ensure_installed = {
-      -- "rust-analyzer", -- rust
-      "lua-language-server", -- lua
-      "terraform-ls", -- terraform
-      "taplo", -- toml
-      "json-lsp", -- json
+      "lua-language-server",
       "ruff",
       "pyright",
       "mypy",

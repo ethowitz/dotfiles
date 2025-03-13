@@ -49,6 +49,7 @@ vim.cmd("packadd cfilter")
 vim.cmd.colorscheme("monokai-pro")
 
 vim.g.vim_json_conceal = 0 -- Always show quotes in JSON files
+vim.opt.cmdheight = 0 -- Don't waste a line for the command prompt below the status bar
 vim.opt.cursorline = true -- Highlight the text line of the cursor
 vim.opt.number = true -- Make line numbers default
 vim.opt.relativenumber = true

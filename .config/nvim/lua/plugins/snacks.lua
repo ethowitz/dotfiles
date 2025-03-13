@@ -1,5 +1,5 @@
 local project_patterns = {
-  "**/Cargo.toml",
+  "Cargo.toml",
   "requirements.txt",
   "requirements.ini",
   "Gemfile",
@@ -28,10 +28,40 @@ local project_fd_args = {
   "{}",
 }
 
+local timer = nil
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  opts = {
+    bigfile = {
+      enabled = true,
+    },
+    bufdelete = {
+      enabled = true,
+    },
+    picker = {
+      enabled = true,
+      layout = {
+        preset = "ivy",
+      },
+      sources = {
+        smart = {
+          previewer = false,
+        },
+      },
+      win = {
+        input = {
+          keys = {
+            ["<Esc>"] = { "close", mode = { "n", "i" } },
+            ["<c-n>"] = { "list_up", mode = { "i", "n" } },
+            ["<c-p>"] = { "list_down", mode = { "i", "n" } },
+          },
+        },
+      },
+    },
+  },
   keys = {
     {
       "<leader><space>",
@@ -68,16 +98,46 @@ return {
       desc = "search buffer",
     },
     {
-      "<leader>j",
+      "<C-o>",
       function()
-        Snacks.picker.jumps()
+        Snacks.picker.jumps({
+          on_change = function(picker)
+            if timer then
+              timer:stop()
+            end
+
+            local close_picker = function()
+              Snacks.picker.actions.close(picker)
+            end
+            timer = vim.loop.new_timer()
+            timer:start(500, 0, vim.schedule_wrap(close_picker))
+            Snacks.picker.actions.jump(picker, _, { cmd = nil })
+            Snacks.picker.actions.focus_list(picker)
+          end,
+          auto_close = false,
+          jump = {
+            close = false,
+            reuse_win = true,
+          },
+          win = {
+            list = {
+              keys = {
+                ["<C-o>"] = "list_down",
+                ["<c-i>"] = "list_up",
+              },
+            },
+          },
+          layout = {
+            max_height = 10,
+          },
+        })
       end,
       desc = "search jumps",
     },
     {
       "<C-p>",
       function()
-        Snacks.picker.recent({ filter = { cwd = true } })
+        Snacks.picker.recent()
       end,
       desc = "search recent files",
     },
@@ -237,31 +297,6 @@ return {
         Snacks.picker.lsp_type_definitions()
       end,
       desc = "Goto T[y]pe Definition",
-    },
-  },
-  opts = {
-    bufdelete = {
-      enabled = true,
-    },
-    picker = {
-      enabled = true,
-      layout = {
-        preset = "ivy",
-      },
-      sources = {
-        smart = {
-          previewer = false,
-        },
-      },
-      win = {
-        input = {
-          keys = {
-            ["<Esc>"] = { "close", mode = { "n", "i" } },
-            ["<c-n>"] = { "list_up", mode = { "i", "n" } },
-            ["<c-p>"] = { "list_down", mode = { "i", "n" } },
-          },
-        },
-      },
     },
   },
 }

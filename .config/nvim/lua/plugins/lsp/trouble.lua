@@ -1,66 +1,67 @@
-return {
-  "folke/trouble.nvim",
-  opts = {
-    auto_close = true,
-    warn_no_results = false,
-    open_no_results = true,
-    icons = {
-      indent = {
-        middle = "",
-        last = "",
-        top = "",
-        ws = " ",
-      },
-    },
-    modes = {
-      diagnostics = {
-        win = {
-          size = {
-            height = 8,
-          },
-        },
-        multiline = false,
-        follow = true,
-        format = "{severity_icon} {filename} {message:md} {item.source} {code} {pos}",
-        groups = {},
-        filter = function(items)
-          local severity = vim.diagnostic.severity.WARN
-          for _, item in ipairs(items) do
-            severity = math.min(severity, item.severity)
-          end
-          return vim.tbl_filter(function(item)
-            return item.severity == severity
-          end, items)
-        end,
-      },
-    },
-  },
-  keys = {
-    {
-      "<leader>x",
-      function()
-        local trouble = require("trouble")
-        trouble.toggle({ mode = "diagnostics" })
-      end,
-      silent = true,
-    },
-    {
-      "<C-,>",
-      function()
-        local trouble = require("trouble")
-        trouble.prev({ mode = "diagnostics" })
-        trouble.jump({ mode = "diagnostics" })
-      end,
-      silent = true,
-    },
-    {
-      "<C-.>",
-      function()
-        local trouble = require("trouble")
-        trouble.next({ mode = "diagnostics" })
-        trouble.jump({ mode = "diagnostics" })
-      end,
-      silent = true,
-    },
-  },
-}
+return {}
+-- return {
+--   "folke/trouble.nvim",
+--   opts = {
+--     auto_close = true,
+--     warn_no_results = false,
+--     open_no_results = true,
+--     icons = {
+--       indent = {
+--         middle = "",
+--         last = "",
+--         top = "",
+--         ws = " ",
+--       },
+--     },
+--     modes = {
+--       diagnostics = {
+--         win = {
+--           size = {
+--             height = 8,
+--           },
+--         },
+--         multiline = false,
+--         follow = true,
+--         format = "{severity_icon} {filename} {message:md} {item.source} {code} {pos}",
+--         groups = {},
+--         filter = function(items)
+--           local severity = vim.diagnostic.severity.WARN
+--           for _, item in ipairs(items) do
+--             severity = math.min(severity, item.severity)
+--           end
+--           return vim.tbl_filter(function(item)
+--             return item.severity == severity
+--           end, items)
+--         end,
+--       },
+--     },
+--   },
+--   keys = {
+--     {
+--       "<leader>x",
+--       function()
+--         local trouble = require("trouble")
+--         trouble.toggle({ mode = "diagnostics" })
+--       end,
+--       silent = true,
+--     },
+--     {
+--       "<C-,>",
+--       function()
+--         local trouble = require("trouble")
+--         trouble.prev({ mode = "diagnostics" })
+--         trouble.jump({ mode = "diagnostics" })
+--       end,
+--       silent = true,
+--     },
+--     {
+--       "<C-.>",
+--       function()
+--         local trouble = require("trouble")
+--         trouble.next({ mode = "diagnostics" })
+--         trouble.jump({ mode = "diagnostics" })
+--       end,
+--       silent = true,
+--     },
+--   },
+-- }

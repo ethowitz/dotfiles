@@ -22,16 +22,10 @@ return {
       desc = "go to last buffer",
     },
     {
-      "<leader>Q",
-      ":cclose<CR>",
-      desc = "close quickfix list",
-    },
-    {
       "<leader>bD",
       function()
         Snacks.bufdelete.all()
       end,
-      -- ":bufdo bwipeout<CR>",
       desc = "destroy all buffers",
     },
     {
@@ -39,7 +33,6 @@ return {
       function()
         Snacks.bufdelete.delete()
       end,
-      -- ":bd<CR>",
       desc = "destroy current buffer",
     },
     {
@@ -48,24 +41,32 @@ return {
       desc = "destroy all except current buffer",
     },
     { "<leader>ci", ":e $MYVIMRC<CR>", desc = "open init.lua" },
-    { "<leader>q", ":copen<CR>", desc = "open quickfix list" },
     { "<leader>tc", ":tabclose<CR>", desc = "close the current tab" },
     { "<leader>tn", ":tabnew<CR>", desc = "create a new tab" },
-    -- { "<leader>wc", ":close<CR>", desc = "close current window" },
+    { "<leader>wc", ":close<CR>", desc = "close current window" },
     -- { "<leader>wh", ":sp<CR>", desc = "create a horizontal split" },
     -- { "<leader>wv", ":vsp<CR>", desc = "create a vertical split" },
-    -- { "<C-p>", ":bprev<CR>", desc = "previous buffer" },
-    -- { "<C-n>", ":bnext<CR>", desc = "next buffer" },
     { "<Esc>", ":noh<CR>", desc = "clear highlights" },
     {
-      "<C-9>",
+      "[q",
       ":cp<CR>",
       desc = "go to previous quickfix item",
     },
     {
-      "<C-0>",
+      "]q",
       ":cn<CR>",
       desc = "go to next quickfix item",
+    },
+
+    {
+      "]t",
+      ":tabnext<CR>",
+      desc = "go to next tab",
+    },
+    {
+      "[t",
+      ":tabprev<CR>",
+      desc = "go to previous tab",
     },
   },
 }

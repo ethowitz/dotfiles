@@ -10,6 +10,7 @@ return {
       "pyright",
       "mypy",
       "vtsls",
+      "eslint-lsp",
     },
   },
   config = function(_, opts)

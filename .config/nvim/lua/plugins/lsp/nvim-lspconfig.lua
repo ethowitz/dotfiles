@@ -32,11 +32,20 @@ return {
   lazy = false,
   keys = {
     {
-      "<leader>lq",
+      "<leader>le",
       function()
-        vim.diagnostic.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
+        vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR, open = false })
+        require("quicker").open({ focus = false })
       end,
-      desc = "dump LSP diagnostics to quickfix list",
+      desc = "dump LSP errors to quickfix list",
+    },
+    {
+      "<leader>lw",
+      function()
+        vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.WARN, open = false })
+        require("quicker").open({ focus = false })
+      end,
+      desc = "dump LSP warnings to quickfix list",
     },
     { "<leader>lR", ":LspRestart<CR>", desc = "restart LSP" },
     { "<leader>ls", ":LspStop<CR>", desc = "stop LSP" },
@@ -50,24 +59,22 @@ return {
     },
   },
   config = function()
-    local sign = function(opts)
-      vim.fn.sign_define(opts.name, {
-        texthl = opts.name,
-        text = opts.text,
-        numhl = "",
-      })
-    end
-
-    sign({ name = "DiagnosticSignError", text = " " })
-    sign({ name = "DiagnosticSignWarn", text = " " })
-    sign({ name = "DiagnosticSignHint", text = "󰌵 " })
-    sign({ name = "DiagnosticSignInfo", text = "󰋼 " })
-
     vim.diagnostic.config({
       on_init_callback = function(_)
         setup_codelens_refresh(_)
       end,
       severity_sort = true,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = " ",
+          [vim.diagnostic.severity.WARN] = " ",
+          [vim.diagnostic.severity.INFO] = "󰋼 ",
+          [vim.diagnostic.severity.HINT] = "󰌵 ",
+        },
+      },
+
+      -- virtual_text = false,
+      -- virtual_lines = { current_line = true },
     })
 
     -- Use LspAttach autocommand to only map the following keys
@@ -152,17 +159,39 @@ return {
             vim.lsp.buf.signature_help,
             desc = "show LSP signature help in hover",
           },
-          {
-            "<space>e",
-            function()
-              vim.cmd.RustLsp({ "renderDiagnostic", "current" })
-            end,
-            desc = "open LSP diagnostic float",
-          },
+          -- {
+          --   "<space>e",
+          --   function()
+          --     vim.diagnostic.open_float()
+          --   end,
+          --   desc = "open LSP diagnostic float",
+          -- },
           {
             "<space>q",
             ":lua vim.diagnostic.setloclist()<CR>",
             desc = "set the loclist with LSP diagnostics",
+          },
+          {
+            "]e",
+            function()
+              vim.diagnostic.jump({
+                count = 1,
+                float = true,
+                severity = vim.diagnostic.severity.ERROR,
+              })
+            end,
+            desc = "Jump to next LSP error diagnostic",
+          },
+          {
+            "[e",
+            function()
+              vim.diagnostic.jump({
+                count = -1,
+                float = true,
+                severity = vim.diagnostic.severity.ERROR,
+              })
+            end,
+            desc = "Jump to next LSP error diagnostic",
           },
         }, lsp_opts)
 
@@ -281,6 +310,23 @@ return {
     })
     lspconfig.vtsls.setup({
       on_attach = on_attach,
+    })
+    lspconfig.eslint.setup({
+      cmd = { "vscode-eslint-language-server", "--stdio" },
+      on_attach = on_attach,
+      filetypes = {
+        "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+        "vue",
+        "svelte",
+        "astro",
+        "html",
+        "css",
+      },
     })
   end,
   dependencies = {

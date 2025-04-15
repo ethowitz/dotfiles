@@ -88,3 +88,19 @@ vim.cmd([[autocmd FileChangedShellPost *
         \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None ]])
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Use <ESC> to close certain kinds of windows
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = {
+    "help",
+    "startuptime",
+    "qf",
+    "lspinfo",
+    "man",
+    "checkhealth",
+  },
+  command = [[
+    nnoremap <buffer><silent> <ESC> :close<CR>
+    set nobuflisted
+  ]],
+})

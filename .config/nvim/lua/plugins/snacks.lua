@@ -25,6 +25,9 @@ return {
       enabled = true,
       layout = {
         preset = "ivy",
+        layout = {
+          height = 0.3,
+        },
       },
       sources = {
         smart = {
@@ -62,6 +65,7 @@ return {
               truncate = 100,
             },
           },
+          title = "Files",
         })
       end,
       desc = "Search files",
@@ -81,6 +85,9 @@ return {
       ",",
       function()
         Snacks.picker.buffers({
+          filter = {
+            cwd = true,
+          },
           layout = {
             preview = false,
           },
@@ -91,42 +98,71 @@ return {
     {
       "<C-p>",
       function()
-        Snacks.picker.jumps({
-          on_show = function(_)
-            jumped_files = {}
-          end,
-          transform = function(item)
-            if item.file == "" or contains(jumped_files, item.file) then
-              return false
-            else
-              table.insert(jumped_files, item.file)
-              item.text = item.file
-              item.line = ""
-              item.label = ""
-              return item
-            end
-          end,
+        Snacks.picker.recent({
+          filter = {
+            cwd = true,
+          },
           win = {
             list = {
+              title = "Recent Files",
               keys = {
-                ["<c-n>"] = { "list_up", mode = { "i", "n" } },
-                ["<c-p>"] = { "list_down", mode = { "i", "n" } },
+                ["<C-n>"] = { "list_up", mode = { "i", "n" } },
+                ["<C-p>"] = { "list_down", mode = { "i", "n" } },
               },
             },
           },
           layout = {
-            preset = "dropdown",
+            preset = "telescope",
             hidden = { "input" },
             preview = false,
+            reverse = false,
             layout = {
               height = 0.2,
+              width = 0.6,
             },
           },
-          title = "Jumplist Files",
         })
       end,
-      desc = "recent jumps, except only include the most recent jump in each file",
     },
+    -- {
+    --   "<C-p>",
+    --   function()
+    --     Snacks.picker.jumps({
+    --       on_show = function(_)
+    --         jumped_files = {}
+    --       end,
+    --       transform = function(item)
+    --         if item.file == "" or contains(jumped_files, item.file) then
+    --           return false
+    --         else
+    --           table.insert(jumped_files, item.file)
+    --           item.text = item.file
+    --           item.line = ""
+    --           item.label = ""
+    --           return item
+    --         end
+    --       end,
+    --       win = {
+    --         list = {
+    --           keys = {
+    --             ["<c-n>"] = { "list_up", mode = { "i", "n" } },
+    --             ["<c-p>"] = { "list_down", mode = { "i", "n" } },
+    --           },
+    --         },
+    --       },
+    --       layout = {
+    --         preset = "dropdown",
+    --         hidden = { "input" },
+    --         preview = false,
+    --         layout = {
+    --           height = 0.2,
+    --         },
+    --       },
+    --       title = "jumplist files",
+    --     })
+    --   end,
+    --   desc = "recent jumps, except only include the most recent jump in each file",
+    -- },
     {
       "<leader>sP",
       function()

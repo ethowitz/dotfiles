@@ -26,6 +26,8 @@ local function setup_codelens_refresh(client, bufnr)
   })
 end
 
+local function setup_keybindings(bufnr) end
+
 return {
   -- LSP configuration
   "neovim/nvim-lspconfig",
@@ -73,8 +75,10 @@ return {
         },
       },
 
-      -- virtual_text = false,
-      -- virtual_lines = { current_line = true },
+      virtual_text = true,
+      virtual_lines = {
+        current_line = true,
+      },
     })
 
     -- Use LspAttach autocommand to only map the following keys
@@ -159,13 +163,13 @@ return {
             vim.lsp.buf.signature_help,
             desc = "show LSP signature help in hover",
           },
-          -- {
-          --   "<space>e",
-          --   function()
-          --     vim.diagnostic.open_float()
-          --   end,
-          --   desc = "open LSP diagnostic float",
-          -- },
+          {
+            "<space>e",
+            function()
+              vim.diagnostic.open_float()
+            end,
+            desc = "open LSP diagnostic float",
+          },
           {
             "<space>q",
             ":lua vim.diagnostic.setloclist()<CR>",
@@ -176,7 +180,7 @@ return {
             function()
               vim.diagnostic.jump({
                 count = 1,
-                float = true,
+                float = false,
                 severity = vim.diagnostic.severity.ERROR,
               })
             end,
@@ -187,7 +191,7 @@ return {
             function()
               vim.diagnostic.jump({
                 count = -1,
-                float = true,
+                float = false,
                 severity = vim.diagnostic.severity.ERROR,
               })
             end,

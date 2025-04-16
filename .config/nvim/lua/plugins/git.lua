@@ -70,7 +70,7 @@ return {
             vim.cmd("DiffviewClose")
           end
         end,
-        desc = "open diffview",
+        desc = "Open diffview",
       },
     },
   },

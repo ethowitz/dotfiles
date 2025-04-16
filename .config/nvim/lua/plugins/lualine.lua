@@ -66,26 +66,20 @@ return {
             fmt = function(str)
               local root = vim.g.gitroot
 
-              if not vim.g.gitroot then
+              if not root then
                 -- We're not in a git repository, so just return the filename relative to our cwd
-                return vim.fs.relpath(vim.fn["getcwd"], str) or str
+                return vim.fs.relpath(vim.fn["getcwd"](), str) or str
               else
-                local relcwd = vim.fs.relpath(vim.g.gitroot, vim.fn["getcwd"]())
-                local prefix = ""
-                if relcwd ~= "." then
-                  prefix = "(" .. relcwd .. ") "
-                end
-
                 local filename = vim.fs.relpath(vim.fn["getcwd"](), str) --or vim.fs.relpath(root, str) or str
                 if filename then
                   -- The current file is a child of the cwd, so just display a relative path
-                  return prefix .. filename
+                  return filename
                 else
                   local filename = vim.fs.relpath(root, str)
                   if filename then
                     -- The current file is a child of the git root but *not* the cwd, so display
                     -- the path relative to the git root
-                    return prefix .. "//" .. filename
+                    return "//" .. filename
                   else
                     return str
                   end

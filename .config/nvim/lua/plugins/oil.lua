@@ -4,8 +4,8 @@ return {
   keys = {
     {
       "<leader>-",
-      ":Oil<CR>",
-      desc = "open directory explorer",
+      ":keepjumps Oil<CR>",
+      desc = "Directory explorer",
     },
   },
 }

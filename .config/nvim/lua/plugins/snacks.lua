@@ -1,5 +1,6 @@
+-- TODO: when opening a file/buffer, open it in correct tab page
+
 local curr_item = {}
-local jumped_files = {}
 
 function contains(table, item)
   for i = 1, #table do
@@ -71,15 +72,46 @@ return {
       desc = "Search files",
     },
     {
+      "<leader>i",
+      function()
+        Snacks.picker.smart({
+          layout = {
+            preview = false,
+          },
+          multi = { "files" },
+          formatters = {
+            file = {
+              truncate = 100,
+            },
+          },
+          title = "Files (incl. ignored)",
+        })
+      end,
+      desc = "Search files (incl. ignored)",
+    },
+    {
       "<leader>/",
       function()
         Snacks.picker.grep({
           layout = {
             preset = "ivy_split",
           },
+          title = "Live Grep",
         })
       end,
       desc = "Live grep",
+    },
+    {
+      "<leader>?",
+      function()
+        Snacks.picker.grep({
+          layout = {
+            preset = "ivy_split",
+          },
+          title = "Live Grep (incl. ignored)",
+        })
+      end,
+      desc = "Live grep (incl. ignored)",
     },
     {
       ",",
@@ -94,6 +126,34 @@ return {
         })
       end,
       desc = "Search buffers",
+    },
+    {
+      "<M-p>",
+      function()
+        Snacks.picker.recent({
+          win = {
+            list = {
+              title = "Recent Files (global)",
+              keys = {
+                ["<C-n>"] = nil,
+                ["<C-p>"] = nil,
+                ["<M-n>"] = { "list_up", mode = { "i", "n" } },
+                ["<M-p>"] = { "list_down", mode = { "i", "n" } },
+              },
+            },
+          },
+          layout = {
+            preset = "telescope",
+            hidden = { "input" },
+            preview = false,
+            reverse = false,
+            layout = {
+              height = 0.2,
+              width = 0.6,
+            },
+          },
+        })
+      end,
     },
     {
       "<C-p>",
@@ -124,45 +184,6 @@ return {
         })
       end,
     },
-    -- {
-    --   "<C-p>",
-    --   function()
-    --     Snacks.picker.jumps({
-    --       on_show = function(_)
-    --         jumped_files = {}
-    --       end,
-    --       transform = function(item)
-    --         if item.file == "" or contains(jumped_files, item.file) then
-    --           return false
-    --         else
-    --           table.insert(jumped_files, item.file)
-    --           item.text = item.file
-    --           item.line = ""
-    --           item.label = ""
-    --           return item
-    --         end
-    --       end,
-    --       win = {
-    --         list = {
-    --           keys = {
-    --             ["<c-n>"] = { "list_up", mode = { "i", "n" } },
-    --             ["<c-p>"] = { "list_down", mode = { "i", "n" } },
-    --           },
-    --         },
-    --       },
-    --       layout = {
-    --         preset = "dropdown",
-    --         hidden = { "input" },
-    --         preview = false,
-    --         layout = {
-    --           height = 0.2,
-    --         },
-    --       },
-    --       title = "jumplist files",
-    --     })
-    --   end,
-    --   desc = "recent jumps, except only include the most recent jump in each file",
-    -- },
     {
       "<leader>sP",
       function()
@@ -198,8 +219,7 @@ return {
                   "d",
                   "--follow",
                   "--base-directory",
-                  vim.g.gitroot,
-                  -- vim.fs.normalize("~/dev"),
+                  vim.g.gitroot or vim.fs.normalize("~/dev"),
                   "--strip-cwd-prefix",
                   "--glob",
                   "{.git,.projectroot}",
@@ -266,25 +286,6 @@ return {
       end,
       desc = "Search recent projects",
     },
-    -- {
-    --   "<leader>sp",
-    --   function()
-    --     Snacks.picker.files({
-    --       args = project_fd_args,
-    --       confirm = function(picker, item)
-    --         picker:close()
-    --         Snacks.picker.pick("files", {
-    --           dirs = { item.file },
-    --         })
-    --       end,
-    --       title = "Find Files in Project",
-    --       transform = function(item)
-    --         item.dir = true
-    --       end,
-    --     })
-    --   end,
-    --   desc = "search recent projects",
-    -- },
     {
       "<leader>cf",
       function()

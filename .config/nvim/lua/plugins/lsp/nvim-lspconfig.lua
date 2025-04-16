@@ -76,9 +76,6 @@ return {
       },
 
       virtual_text = true,
-      virtual_lines = {
-        current_line = true,
-      },
     })
 
     -- Use LspAttach autocommand to only map the following keys

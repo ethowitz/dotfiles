@@ -1,8 +1,12 @@
 -- Set globals to be used in our config files
 vim.g.start_directory = vim.fn.getcwd()
-local handle = io.popen("git rev-parse --show-toplevel")
+local handle = io.popen("git rev-parse --show-toplevel 2> /dev/null")
 vim.g.gitroot = string.gsub(handle:read("*a"), "\n", "")
 handle:close()
+
+if vim.g.gitroot == "" then
+  vim.g.gitroot = nil
+end
 
 vim.g.mapleader = "\\"
 vim.g.maplocalleader = " "
@@ -24,13 +28,12 @@ require("lazy").setup({
   change_detection = {
     enabled = false,
   },
-  defaults = {
-    lazy = false,
-  },
   spec = {
     import = "plugins",
   },
-})
+}, { defaults = {
+  lazy = false,
+} })
 
 -- Insert mode completion
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
@@ -56,6 +59,7 @@ vim.opt.cursorline = true -- Highlight the text line of the cursor
 vim.opt.number = true -- Make line numbers default
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 7
+vim.opt.showtabline = 2
 vim.opt.signcolumn = "yes" -- Always show sign column
 vim.opt.splitbelow = true -- Always split below instead of above
 vim.wo.wrap = false
@@ -66,7 +70,7 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 
-vim.opt.clipboard = "unnamedplus" -- Access system clipboard
+-- vim.opt.clipboard = "unnamedplus" -- Access system clipboard
 -- vim.opt.jumpoptions = { "stack", "view" }
 vim.opt.mouse = "a" -- Enable mouse mode
 vim.opt.undodir = os.getenv("HOME") .. "/.local/share/nvim/undo" -- Directory where the undo files will be stored
@@ -102,5 +106,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   command = [[
     nnoremap <buffer><silent> <ESC> :close<CR>
     set nobuflisted
+  ]],
+})
+
+-- Use <ESC> to close certain kinds of buffers
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = {
+    "oil",
+  },
+  command = [[
+    nnoremap <buffer><silent> <ESC> :bd<CR>
+    "set nobuflisted
   ]],
 })

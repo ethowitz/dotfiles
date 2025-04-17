@@ -1,3 +1,11 @@
+local function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do
+    count = count + 1
+  end
+  return count
+end
+
 local function setup_codelens_refresh(client, bufnr)
   local status_ok, codelens_supported = pcall(function()
     return client.supports_method("textDocument/codeLens")
@@ -26,7 +34,104 @@ local function setup_codelens_refresh(client, bufnr)
   })
 end
 
-local function setup_keybindings(bufnr) end
+local function setup_keybindings(ev)
+  local lsp_opts = { noremap = true, silent = true, buffer = ev.buf }
+  require("which-key").add({
+    {
+      "gD",
+      function()
+        vim.lsp.buf.declaration()
+      end,
+      desc = "Go to declaration",
+    },
+    {
+      "gd",
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = "Go to definition(s) of symbol under cursor",
+    },
+    {
+      "gt",
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = "Go to definition(s) of the type of the symbol under cursor",
+    },
+    {
+      "gr",
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      desc = "Search references to symbol under cursor",
+    },
+    {
+      "gi",
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = "Search implementations of the symbol under cursor",
+    },
+    {
+      "<leader>st",
+      function()
+        Snacks.picker.lsp_workspace_symbols()
+      end,
+      desc = "LSP Workspace Symbols",
+    },
+    {
+      "<leader>ss",
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = "LSP Symbols",
+    },
+    {
+      "K",
+      vim.lsp.buf.hover,
+      desc = "Show LSP diagnostic info in hover",
+    },
+    {
+      "<C-k>",
+      vim.lsp.buf.signature_help,
+      desc = "Show LSP signature help in hover",
+    },
+    {
+      "<space>e",
+      function()
+        vim.diagnostic.open_float()
+      end,
+      desc = "Open LSP diagnostic float",
+    },
+    {
+      "<space>q",
+      ":lua vim.diagnostic.setloclist()<CR>",
+      desc = "Set the loclist with LSP diagnostics",
+    },
+    {
+      "]e",
+      function()
+        vim.diagnostic.jump({
+          count = 1,
+          float = false,
+          severity = vim.diagnostic.severity.ERROR,
+        })
+      end,
+      desc = "Jump to next LSP error diagnostic",
+    },
+    {
+      "[e",
+      function()
+        vim.diagnostic.jump({
+          count = -1,
+          float = false,
+          severity = vim.diagnostic.severity.ERROR,
+        })
+      end,
+      desc = "Jump to next LSP error diagnostic",
+    },
+  }, lsp_opts)
+end
 
 return {
   -- LSP configuration
@@ -39,7 +144,7 @@ return {
         vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR, open = false })
         require("quicker").open({ focus = false })
       end,
-      desc = "dump LSP errors to quickfix list",
+      desc = "Dump LSP errors to quickfix list",
     },
     {
       "<leader>lw",
@@ -47,17 +152,17 @@ return {
         vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.WARN, open = false })
         require("quicker").open({ focus = false })
       end,
-      desc = "dump LSP warnings to quickfix list",
+      desc = "Dump LSP warnings to quickfix list",
     },
-    { "<leader>lR", ":LspRestart<CR>", desc = "restart LSP" },
-    { "<leader>ls", ":LspStop<CR>", desc = "stop LSP" },
-    { "<leader>lg", ":LspStart<CR>", desc = "start LSP" },
+    { "<leader>lR", ":LspRestart<CR>", desc = "Restart LSP" },
+    { "<leader>ls", ":LspStop<CR>", desc = "Stop LSP" },
+    { "<leader>lg", ":LspStart<CR>", desc = "Start LSP" },
     {
       "<leader>lr",
       function()
         vim.lsp.buf.rename()
       end,
-      desc = "rename symbol under cursor",
+      desc = "Rename symbol under cursor",
     },
   },
   config = function()
@@ -76,6 +181,22 @@ return {
       },
 
       virtual_text = true,
+    })
+    -- Automatically put warnings/errors in the quickfix list
+    vim.api.nvim_create_autocmd({ "LspProgress" }, {
+      pattern = {
+        "end",
+      },
+      callback = function()
+        local errors = vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+        local warnings = vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.WARN })
+
+        if tablelength(errors) > 0 then
+          vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR, open = false })
+        elseif tablelength(warnings) > 0 then
+          vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.WARN, open = false })
+        end
+      end,
     })
 
     -- Use LspAttach autocommand to only map the following keys
@@ -96,105 +217,7 @@ return {
         -- Enable completion triggered by <c-x><c-o>
         vim.api.nvim_buf_set_option(ev.buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-        -- Mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local lsp_opts = { noremap = true, silent = true, buffer = ev.buf }
-
-        require("which-key").add({
-          {
-            "gD",
-            function()
-              vim.lsp.buf.declaration()
-            end,
-            desc = "go to declaration",
-          },
-          {
-            "gd",
-            function()
-              Snacks.picker.lsp_definitions()
-            end,
-            desc = "go to definition(s) of symbol under cursor",
-          },
-          {
-            "gt",
-            function()
-              Snacks.picker.lsp_type_definitions()
-            end,
-            desc = "go to definition(s) of the type of the symbol under cursor",
-          },
-          {
-            "gr",
-            function()
-              Snacks.picker.lsp_references()
-            end,
-            desc = "search references to symbol under cursor",
-          },
-          {
-            "gi",
-            function()
-              Snacks.picker.lsp_implementations()
-            end,
-            desc = "search implementations of the symbol under cursor",
-          },
-          {
-            "<leader>st",
-            function()
-              Snacks.picker.lsp_workspace_symbols()
-            end,
-            desc = "LSP Workspace Symbols",
-          },
-          {
-            "<leader>ss",
-            function()
-              Snacks.picker.lsp_symbols()
-            end,
-            desc = "LSP Symbols",
-          },
-          {
-            "K",
-            vim.lsp.buf.hover,
-            desc = "show LSP diagnostic info in hover",
-          },
-          {
-            "<C-k>",
-            vim.lsp.buf.signature_help,
-            desc = "show LSP signature help in hover",
-          },
-          {
-            "<space>e",
-            function()
-              vim.diagnostic.open_float()
-            end,
-            desc = "open LSP diagnostic float",
-          },
-          {
-            "<space>q",
-            ":lua vim.diagnostic.setloclist()<CR>",
-            desc = "set the loclist with LSP diagnostics",
-          },
-          {
-            "]e",
-            function()
-              vim.diagnostic.jump({
-                count = 1,
-                float = false,
-                severity = vim.diagnostic.severity.ERROR,
-              })
-            end,
-            desc = "Jump to next LSP error diagnostic",
-          },
-          {
-            "[e",
-            function()
-              vim.diagnostic.jump({
-                count = -1,
-                float = false,
-                severity = vim.diagnostic.severity.ERROR,
-              })
-            end,
-            desc = "Jump to next LSP error diagnostic",
-          },
-        }, lsp_opts)
+        setup_keybindings(ev)
 
         -- Highlight word under cursor
         local client = vim.lsp.get_client_by_id(ev.data.client_id)

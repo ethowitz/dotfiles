@@ -1,3 +1,11 @@
+local function tablelength(table)
+  local count = 0
+  for _ in pairs(table) do
+    count = count + 1
+  end
+  return count
+end
+
 local function setup_keybindings(bufnr)
   require("which-key").add({
     {
@@ -5,7 +13,7 @@ local function setup_keybindings(bufnr)
       function()
         vim.cmd.RustLsp("openDocs")
       end,
-      desc = "open docs",
+      desc = "Open docs",
     },
     {
       "<leader>re",
@@ -32,21 +40,21 @@ local function setup_keybindings(bufnr)
       function()
         vim.cmd.RustLsp({ "explainError", "current" })
       end,
-      desc = "explain error",
+      desc = "Explain error",
     },
     {
       "<space>e",
       function()
         vim.cmd.RustLsp({ "renderDiagnostic", "current" })
       end,
-      desc = "open LSP diagnostic float",
+      desc = "Open LSP diagnostic float",
     },
     {
       "<leader>x",
       function()
         vim.cmd.RustLsp("flyCheck")
       end,
-      desc = "cargo check",
+      desc = "Fun flycheck",
     },
     {
       "K",

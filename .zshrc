@@ -22,9 +22,41 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 # aliases
-alias vim='nvim'
-alias mv='mv -i'
 alias co='git checkout $(git branch --sort=-committerdate | fzf)'
+alias g!='f() { git "$@" --no-verify };f'
+alias git!='f() { git "$@" --no-verify };f'
+alias mv='mv -i'
+alias pp='cd `git rev-parse --show-toplevel`'
+alias tf='terraform'
+alias vim='nvim'
+
+function pc() {
+	git_root="$(git rev-parse --show-toplevel 2> /dev/null)" || "$(echo ~/dev)"
+        new_dir="$(fd -H -I -t f -t s -t d \
+		--exclude 'node_modules' \
+		--exclude 'bazel-*' \
+		--exclude '.git' \
+		--follow \
+		--strip-cwd-prefix \
+		--base-directory ${git_root} \
+		.projectroot \
+		-x dirname {} \
+		| uniq \
+		| fzf)"
+
+	if [ ! -z "${new_dir}" ]; then
+		cd "$git_root/$new_dir"
+	fi
+
+}
+
+function pp() {
+        git_root="$(git rev-parse --show-toplevel 2> /dev/null)"
+
+	if [ ! -z "${git_root}" ]; then
+		cd "$git_root"
+	fi
+}
 
 # platform specific stuff
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

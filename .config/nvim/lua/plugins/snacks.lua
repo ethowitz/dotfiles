@@ -2,15 +2,6 @@
 
 local curr_item = {}
 
-function contains(table, item)
-  for i = 1, #table do
-    if table[i] == item then
-      return true
-    end
-  end
-  return false
-end
-
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -45,8 +36,19 @@ return {
         },
       },
     },
+    terminal = {
+      enabled = true,
+    },
   },
   keys = {
+    {
+      [[<C-\>]],
+      function()
+        local cwd = vim.fn["getcwd"]()
+        Snacks.terminal.toggle(_, { cwd = cwd })
+      end,
+      desc = "Toggle the terminal",
+    },
     {
       "<leader>ll",
       function()
@@ -240,7 +242,7 @@ return {
             local cd_path = vim.fs.joinpath(vim.g.gitroot, item.text)
             Snacks.picker.actions.tcd(_, cd_path)
           end,
-          on_change = function(picker, item)
+          on_change = function(_, item)
             curr_item = item
           end,
           on_show = function()

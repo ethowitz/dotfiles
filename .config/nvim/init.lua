@@ -31,9 +31,11 @@ require("lazy").setup({
   spec = {
     import = "plugins",
   },
-}, { defaults = {
-  lazy = false,
-} })
+}, {
+  defaults = {
+    lazy = false,
+  }
+})
 
 -- Insert mode completion
 vim.opt.shortmess = vim.opt.shortmess + { c = true }
@@ -41,7 +43,7 @@ vim.api.nvim_set_option("updatetime", 300)
 
 -- Searching
 vim.opt.ignorecase = true -- Ignore case in searches
-vim.opt.smartcase = true -- Override ignorecase if search pattern contains a capital letter
+vim.opt.smartcase = true  -- Override ignorecase if search pattern contains a capital letter
 
 -- grep
 vim.opt.grepprg = "rg --vimgrep"
@@ -55,15 +57,16 @@ vim.cmd("packadd cfilter")
 vim.cmd.colorscheme("monokai-pro")
 
 vim.g.vim_json_conceal = 0 -- Always show quotes in JSON files
-vim.opt.cursorline = true -- Highlight the text line of the cursor
-vim.opt.number = true -- Make line numbers default
+vim.opt.cursorline = true  -- Highlight the text line of the cursor
+vim.opt.number = true      -- Make line numbers default
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 7
 vim.opt.showtabline = 2
 vim.opt.signcolumn = "yes" -- Always show sign column
-vim.opt.splitbelow = true -- Always split below instead of above
+vim.opt.splitbelow = true  -- Always split below instead of above
 vim.wo.wrap = false
 vim.opt.winbar = " %{%v:lua.require'nvim-navic'.get_location()%}"
+vim.o.showtabline = 2 -- Always display the tabline
 
 -- Tabs 'n spaces
 vim.opt.expandtab = true
@@ -71,10 +74,9 @@ vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 
 -- vim.opt.clipboard = "unnamedplus" -- Access system clipboard
--- vim.opt.jumpoptions = { "stack", "view" }
-vim.opt.mouse = "a" -- Enable mouse mode
+vim.opt.mouse = "a"                                              -- Enable mouse mode
 vim.opt.undodir = os.getenv("HOME") .. "/.local/share/nvim/undo" -- Directory where the undo files will be stored
-vim.opt.undofile = true -- Save undo history
+vim.opt.undofile = true                                          -- Save undo history
 
 -- Toggle between absolute and hybrid line numbers
 vim.cmd([[
@@ -119,3 +121,4 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     "set nobuflisted
   ]],
 })
+vim.opt.pumheight = 20

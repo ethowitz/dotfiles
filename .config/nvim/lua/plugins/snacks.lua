@@ -1,4 +1,5 @@
 -- TODO: when opening a file/buffer, open it in correct tab page
+-- TODO: autocmd to set tab name to tab cwd
 
 local curr_item = {}
 
@@ -52,7 +53,7 @@ return {
     {
       "<leader>ll",
       function()
-        Snacks.picker.diagnostics({ severity = vim.diagnostic.severity.WARN })
+        Snacks.picker.diagnostics({ severity = { min = vim.diagnostic.severity.WARN } })
       end,
     },
     {
@@ -123,7 +124,14 @@ return {
             cwd = true,
           },
           layout = {
+            preset = "telescope",
+            hidden = { "input" },
             preview = false,
+            reverse = false,
+            layout = {
+              height = 0.2,
+              width = 0.6,
+            },
           },
         })
       end,
@@ -206,13 +214,19 @@ return {
 
             local cwd = not (opts.rtp or (opts.dirs and #opts.dirs > 0))
                 and vim.fs.normalize(opts and opts.cwd or uv.cwd() or ".")
-              or nil
+                or nil
             return require("snacks.picker.source.proc").proc({
               opts,
               {
                 cmd = "fd",
                 args = {
                   "--unrestricted", -- include ignored and hidden files
+                  "--exclude",
+                  "node_modules",
+                  "--exclude",
+                  "bazel-*",
+                  "--exclude",
+                  ".git",
                   "-t",
                   "f",
                   "-t",
@@ -223,8 +237,7 @@ return {
                   "--base-directory",
                   vim.g.gitroot or vim.fs.normalize("~/dev"),
                   "--strip-cwd-prefix",
-                  "--glob",
-                  "{.git,.projectroot}",
+                  ".projectroot",
                   "-x",
                   "dirname",
                   "{}",
@@ -241,6 +254,7 @@ return {
             picker:close()
             local cd_path = vim.fs.joinpath(vim.g.gitroot, item.text)
             Snacks.picker.actions.tcd(_, cd_path)
+            vim.cmd("Tabby rename_tab " .. vim.fs.basename(cd_path))
           end,
           on_change = function(_, item)
             curr_item = item
@@ -263,7 +277,7 @@ return {
             -- cwd_bonus = true,
             frecency = true,
             sort_empty = true,
-            history_bonus = false,
+            history_bonus = true,
           },
           win = {
             input = {
@@ -276,6 +290,10 @@ return {
                     -- documented
                     vim.cmd("tabnew")
                     local cd_path = vim.fs.joinpath(vim.g.gitroot, curr_item.text)
+                    vim.cmd("Tabby rename_tab " .. vim.fs.basename(cd_path))
+                    -- TODO: install better tabline plugin
+                    -- name the tabs after the tcd
+                    -- always open in new tab unless use special keystroke
                     Snacks.picker.actions.tcd(_, cd_path)
                     picker:close()
                   end,

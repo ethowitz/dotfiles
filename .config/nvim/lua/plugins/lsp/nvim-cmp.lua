@@ -38,10 +38,10 @@ return {
         },
         -- Installed sources:
         sources = {
-          { name = "path" }, -- file paths
-          { name = "nvim_lsp" }, -- from language server
+          { name = "path" },                    -- file paths
+          { name = "nvim_lsp" },                -- from language server
           { name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
-          { name = "nvim_lua" }, -- complete neovim's Lua runtime API such vim.lsp.*
+          { name = "nvim_lua" },                -- complete neovim's Lua runtime API such vim.lsp.*
           {
             name = "buffer",
             keyword_length = 3,
@@ -56,7 +56,7 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         formatting = {
-          fields = { "menu", "abbr", "kind" },
+          fields = { "kind", "abbr", "menu" },
           format = require("lspkind").cmp_format({
             mode = "symbol_text",
             symbol_map = {
@@ -87,7 +87,7 @@ return {
               Operator = " ",
               TypeParameter = " ",
             },
-            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+            maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           }),
         },

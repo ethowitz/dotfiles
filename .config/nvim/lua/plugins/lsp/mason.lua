@@ -5,12 +5,13 @@ return {
   build = ":MasonUpdate",
   opts = {
     ensure_installed = {
-      "lua-language-server",
-      "ruff",
-      "pyright",
-      "mypy",
-      "vtsls",
       "eslint-lsp",
+      "lua-language-server",
+      "mypy",
+      "pyright",
+      "ruff",
+      "rust-analyzer",
+      "vtsls",
     },
   },
   config = function(_, opts)

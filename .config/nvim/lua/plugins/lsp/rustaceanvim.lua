@@ -1,11 +1,3 @@
-local function tablelength(table)
-  local count = 0
-  for _ in pairs(table) do
-    count = count + 1
-  end
-  return count
-end
-
 local function setup_keybindings(bufnr)
   require("which-key").add({
     {
@@ -81,20 +73,15 @@ return {
           navic.attach(client, bufnr)
 
           setup_keybindings()
-
-          vim.cmd.RustLsp("flyCheck")
         end,
         default_settings = {
           -- TODO: add config options to control behavior across different machines (e.g. vim.g.enable_cargo_filtered)
           ["rust-analyzer"] = {
             checkOnSave = false,
-            -- cmd = { "/Users/ethan/.local/bin/rust-analyzer" },
             check = {
               command = "clippy",
               extraArgs = { "--profile", "rust-analyzer" },
-              -- extraEnv = {
-              --   ["CARGO"] = "/Users/ethan/.cargo/bin/cargo-filtered",
-              -- },
+              workspace = false,
             },
           },
         },

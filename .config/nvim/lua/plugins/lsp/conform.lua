@@ -25,6 +25,7 @@ return { -- Autoformat
       python = { "ruff" },
       rust = { "rustfmt", lsp_format = "fallback" },
       html = { "eslint" },
+      typescript = { "prettier" },
     },
   },
 }

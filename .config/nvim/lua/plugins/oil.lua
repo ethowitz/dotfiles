@@ -6,6 +6,7 @@ return {
       "<leader>-",
       ":keepjumps Oil<CR>",
       desc = "Directory explorer",
+      silent = true
     },
   },
 }

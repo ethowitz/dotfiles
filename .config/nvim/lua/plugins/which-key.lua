@@ -41,12 +41,10 @@ return {
       desc = "Destroy all except current buffer",
     },
     { "<leader>ci", ":e $MYVIMRC<CR>", desc = "Open init.lua" },
-    { "<leader>tc", ":tabclose<CR>", desc = "Close the current tab" },
-    { "<leader>tn", ":tabnew<CR>", desc = "Create a new tab" },
-    { "<leader>wc", ":close<CR>", desc = "Close current window" },
+    { "<leader>wc", ":close<CR>",      desc = "Close current window" },
     -- { "<leader>wh", ":sp<CR>", desc = "create a horizontal split" },
     -- { "<leader>wv", ":vsp<CR>", desc = "create a vertical split" },
-    { "<Esc>", ":noh<CR>", desc = "Clear highlights" },
+    { "<Esc>",      ":noh<CR>",        desc = "Clear highlights" },
     {
       "[q",
       ":cp<CR>",
@@ -58,6 +56,8 @@ return {
       desc = "Go to next quickfix item",
     },
 
+    { "<leader>tc", ":tabclose<CR>", desc = "Close the current tab" },
+    { "<leader>tt", ":tabnew<CR>",   desc = "Create a new tab" },
     {
       "]t",
       ":tabnext<CR>",
@@ -78,5 +78,11 @@ return {
       '"+p',
       desc = "Paste from clipboard",
     },
+    {
+      "<leader>T",
+      ":tabnew|terminal<CR>",
+      desc = "Open terminal in new tab",
+    },
+
   },
 }

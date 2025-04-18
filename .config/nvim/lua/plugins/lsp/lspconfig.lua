@@ -179,7 +179,6 @@ return {
           [vim.diagnostic.severity.HINT] = "󰌵 ",
         },
       },
-
       virtual_text = true,
     })
     -- Automatically put warnings/errors in the quickfix list

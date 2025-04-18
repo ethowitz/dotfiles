@@ -15,10 +15,9 @@ return {
               margin = " ",
             }
           end),
-          hl = "TabLineFill",
+          line.spacer(),
         }
       end,
-      -- option = {}, -- setup modules' option,
     })
   end,
 }

@@ -1,0 +1,18 @@
+# Launch or focus applications
+rcmd - f : open /Applications/Firefox\ Nightly.app
+rcmd - d : open /Applications/Discord.app
+rcmd - s : open /Applications/Spotify.app
+rcmd - n : open /Applications/Obsidian.app
+rcmd - o : open /Applications/Todoist.app
+rcmd - i : open /Applications/Signal.app
+rcmd - m : open /Applications/Messages.app
+
+rcmd - t : open /Applications/kitty.app
+ctrl + shift - return : /Users/ethan/bin/kitty --single-instance --working-directory=/Users/ethan
+
+# Focus windows
+ctrl + shift - h : yabai -m window --focus west
+ctrl + shift - j : yabai -m window --focus south
+ctrl + shift - k : yabai -m window --focus north
+ctrl + shift - l : yabai -m window --focus east
+

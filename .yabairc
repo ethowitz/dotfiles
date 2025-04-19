@@ -1,0 +1,31 @@
+# yabai -m config focus_follows_mouse autofocus
+yabai -m config window_gap 20
+yabai -m config top_padding 75
+yabai -m config bottom_padding 75
+yabai -m config right_padding 350
+yabai -m config left_padding 350
+
+# Primary space settings
+yabai -m config --space 1 layout stack
+
+# Development space settings
+yabai -m config --space 2 layout bsp
+yabai -m config --space 2 top_padding 50
+yabai -m config --space 2 bottom_padding 50
+yabai -m config --space 2 right_padding 900
+yabai -m config --space 2 left_padding 900
+# TODO add toggle to switch between "focus" mode (with terminal centered) and regular mode
+# TODO add keybind to adjust padding around window (top/bottom and left/right separately)
+
+# Signals
+yabai -m signal --add event=display_removed action="~/bin/yabai-resize"
+yabai -m signal --add event=display_added action="~/bin/yabai-resize"
+yabai -m signal --add event=system_woke action="~/bin/yabai-resize"
+
+# Certain windows should not be managed by yabai
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Signal$" manage=off
+yabai -m rule --add app="^Messages$" manage=off
+yabai -m rule --add app="^1Password$" manage=off
+yabai -m rule --add app="^Todoist$" manage=off
+yabai -m rule --add app="^Finder$" manage=off

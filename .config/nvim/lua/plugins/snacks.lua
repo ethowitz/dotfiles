@@ -69,6 +69,7 @@ return {
               truncate = 100,
             },
           },
+          hidden = true,
           title = "Files",
         })
       end,
@@ -88,6 +89,8 @@ return {
             },
           },
           title = "Files (incl. ignored)",
+          hidden = true,
+          ignored = true,
         })
       end,
       desc = "Search files (incl. ignored)",
@@ -100,6 +103,7 @@ return {
             preset = "ivy_split",
           },
           title = "Live Grep",
+          hidden = true,
         })
       end,
       desc = "Live grep",
@@ -111,6 +115,8 @@ return {
           layout = {
             preset = "ivy_split",
           },
+          hidden = true,
+          ignored = true,
           title = "Live Grep (incl. ignored)",
         })
       end,
@@ -214,7 +220,7 @@ return {
 
             local cwd = not (opts.rtp or (opts.dirs and #opts.dirs > 0))
                 and vim.fs.normalize(opts and opts.cwd or uv.cwd() or ".")
-                or nil
+              or nil
             return require("snacks.picker.source.proc").proc({
               opts,
               {

@@ -31,26 +31,25 @@ alias tf='terraform'
 alias vim='nvim'
 
 function pc() {
-	git_root="$(git rev-parse --show-toplevel 2> /dev/null)" || "$(echo ~/dev)"
         new_dir="$(fd -H -I -t f -t s -t d \
 		--exclude 'node_modules' \
 		--exclude 'bazel-*' \
-		--exclude '.git' \
 		--follow \
 		--strip-cwd-prefix \
-		--base-directory ${git_root} \
-		.projectroot \
+		--base-directory ~/dev \
+		--glob \
+		"{.git,.projectroot}" \
 		-x dirname {} \
 		| uniq \
 		| fzf)"
 
 	if [ ! -z "${new_dir}" ]; then
-		cd "$git_root/$new_dir"
+		cd ~/dev/$new_dir
 	fi
 
 }
 
-function pp() {
+function pg() {
         git_root="$(git rev-parse --show-toplevel 2> /dev/null)"
 
 	if [ ! -z "${git_root}" ]; then

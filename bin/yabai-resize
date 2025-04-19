@@ -1,0 +1,32 @@
+#!/bin/bash
+
+ids=$(yabai -m query --displays | jq '.[] .id')
+
+# Check if the list of displays contains our external display
+if [[ " ${ids[*]} " =~ [[:space:]]2[[:space:]] ]]; then
+    # Default space settings
+    yabai -m config window_gap 20
+    yabai -m config top_padding 75
+    yabai -m config bottom_padding 75
+    yabai -m config right_padding 350
+    yabai -m config left_padding 350
+
+    # Development space settings
+    yabai -m config --space 2 top_padding 50
+    yabai -m config --space 2 bottom_padding 50
+    yabai -m config --space 2 right_padding 900
+    yabai -m config --space 2 left_padding 900
+else
+    # Default space settings
+    yabai -m config window_gap 10
+    yabai -m config top_padding 15
+    yabai -m config bottom_padding 15
+    yabai -m config right_padding 40
+    yabai -m config left_padding 40
+
+    # Development space settings
+    yabai -m config --space 2 top_padding 25
+    yabai -m config --space 2 bottom_padding 25
+    yabai -m config --space 2 right_padding 400
+    yabai -m config --space 2 left_padding 400
+fi

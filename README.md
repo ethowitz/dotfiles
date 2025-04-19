@@ -10,5 +10,6 @@
 
 # Installation
 - Add .zshrc.local and .zshenv.local
-- Install wezterm TERMINFO
+- Install ghostty TERMINFO
+- Run `stow . --target=$HOME`
 

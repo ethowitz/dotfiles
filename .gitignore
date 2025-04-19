@@ -1,0 +1,7 @@
+.cargo-allowlist
+.DS_Store
+.projectroot
+
+.fdignore
+.rgignore
+.ignore
